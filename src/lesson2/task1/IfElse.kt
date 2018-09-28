@@ -97,7 +97,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    return if (((kingX != rookX1) && (kingY != rookY1)) && ((kingX != rookX2) && (kingY != rookY2))) 0
+    else if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) 3
+    else if ((kingX == rookX1) || (kingY == rookY1)) 1
+    else 2
+}
 
 /**
  * Простая
@@ -112,7 +117,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int = TODO()
-
 /**
  * Простая
  *
@@ -121,7 +125,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return if ((a > b + c) || (b > c + a) || (c > a + b)) (-1)
+    else if ((a == sqrt(b * b + c* c)) || (b == sqrt(a * a + c * c)) || (c == sqrt(a * a + b * b))) 1
+    else if ((((c * c - b * b - a * a) / (-2 * b * a)) < 0) || (((a *a - b * b - c * c) / (-2 * b *c)) < 0) || (((b * b - a * a - c * c) / (-2 * a * c)) < 0)) 2
+    else 0
+}
 
 /**
  * Средняя
@@ -131,4 +140,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return if ((c > b) || (d < a)) (-1)
+    else if ((d <= b) && (c >= a)) (d - c)
+    else if ((b <= d) && (a >= c)) (b - a)
+    else if ((d >= b) && ((c >= a) && (c <= b))) (b - c)
+    else (d - a)
+}
