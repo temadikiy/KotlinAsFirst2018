@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson1.task1.sqr
+import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -69,10 +72,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var k = 1
-    var number = n / 10
+    var number = abs(n / 10)
     while (number > 0) {
-        k = k + 1
-        number = number / 10
+        k++
+        number /= 10
     }
     return k
 }
@@ -86,15 +89,13 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var one = 0
     var two = 1
-    var s = 1
-    var post: Int
-    for (i in 2..n) {
-        post = s
+    var s: Int
+    for (i in 1..n) {
         s = one + two
         one = two
-        two = post
+        two = s
     }
-    return s
+    return one
 }
 
 /**
@@ -104,13 +105,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
-    var i = 0
-    while (k == 0) {
-        i++
-        if ((i % n == 0) && (i % m == 0)) (k++)
-    }
-    return i
+    var x = n
+    var y = m
+    if (m >= n) {
+        while (x % y != 0) x += n
+    } else while (y % x != 0) y += m
+    return if (m > n) x
+    else y
 }
 
 /**
@@ -133,8 +134,8 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var g = 0
-    for (i in 1..n) {
-        if ((n % i == 0) && (i != n)) g = i
+    for (i in (n - 1) downTo 1) {
+        if ((n % i == 0) && (i > g)) g = i
     }
     return g
 }
@@ -147,15 +148,18 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 0
-    for (i in 1..n * m) {
-        if ((n % i == 0) && (m % i == 0)) k++
+    var x = m
+    var y = n
+    while (x != y) {
+        if (x > y) x -= y
+        else y -= x
     }
     return when {
-        k == 1 -> true
+        x == 1 -> true
         else -> false
     }
 }
+
 
 /**
  * Простая
@@ -167,12 +171,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k: Double
     var c: Double
-    k = sqrt(m.toDouble())
-    c = sqrt(n.toDouble())
-    return when {
-        (c - k > 1) -> true
-        else -> false
-    }
+    k = sqrt(n.toDouble())
+    c = floor(k)
+    return (c >= sqrt(m.toDouble()))
 }
 
 /**
@@ -196,7 +197,7 @@ fun collatzSteps(x: Int): Int {
     var i = x
     while (i != 1) {
         k++
-        if (i % 2 == 0) i = i / 2
+        if (i % 2 == 0) i /= 2
         else i = i * 3 + 1
     }
     return k
@@ -209,7 +210,19 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    val const = x % (2 * PI)
+    var a = const
+    var b = const
+    var n = 1
+    while (true) {
+        b = -b * sqr(const) / (n + 1) / (n + 2)
+        if (eps > abs(b)) break
+        a += b
+        n += 2
+    }
+    return a
+}
 
 /**
  * Средняя
@@ -218,7 +231,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    val const = x % (2 * PI)
+    var a = 1.0
+    var b = 1.0
+    var n = 0
+    while (true) {
+        b = -b * sqr(const) / (n + 1) / (n + 2)
+        if (eps > abs(b)) break
+        a += b
+        n += 2
+    }
+    return a
+
+}
 
 /**
  * Средняя
@@ -249,14 +275,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var k = 0
-    var x = 0
-    var m = n
-    while (m > 0) {
-        k = m % 10
-        x = 10 * x + k
-        m = (m - k) / 10
-    }
+    var x = revert(n)
     return when {
         (x == n) -> true
         else -> false
@@ -272,17 +291,13 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var k = 0
-    var m = n
-    var x = m % 10
+    var m = n / 10
+    val x = n % 10
     while (m > 0) {
-        if (x != m % 10) k++
-        m = m / 10
+        if (m % 10 != x) return true
+        m /= 10
     }
-    return when {
-        ((k == 0) || (n < 10)) -> true
-        else -> false
-    }
+    return false
 }
 
 /**
@@ -294,7 +309,18 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var k = 0
+    var a = 1
+    var x = 0
+    while (x < n) {
+        k += 1
+        x += digitNumber(sqr(k))
+    }
+    for (i in 1..x - n) a *= 10
+    var c = k * k / a % 10
+    return c
+}
 
 /**
  * Сложная
@@ -305,4 +331,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var k = 0
+    var a = 1
+    var x = 0
+    while (x < n) {
+        k += 1
+        x += digitNumber(fib(k))
+    }
+    for (i in 1..x - n) a *= 10
+    var c = fib(k) / a % 10
+    return c
+}

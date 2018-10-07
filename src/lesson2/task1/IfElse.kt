@@ -150,7 +150,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     return when {
         a > b + c || b > c + a || c > a + b -> -1
         a == sqrt(b * b + c * c) || b == sqrt(a * a + c * c) || c == sqrt(a * a + b * b) -> 1
-        ((c * c - b * b - a * a) / (-2 * b * a)) < 0 || ((a * a - b * b - c * c) / (-2 * b * c)) < 0 || ((b * b - a * a - c * c) / (-2 * a * c)) < 0 -> 2
+        ((c * c - b * b - a * a) / (-2 * b * a)) < 0 || ((a * a - b * b - c * c) / (-2 * b * c)) < 0 ||
+                ((b * b - a * a - c * c) / (-2 * a * c)) < 0 -> 2
         else -> 0
     }
 }
