@@ -64,7 +64,7 @@ class Tests {
     @Test
     @Tag("Trivial")
     fun digitNumber() {
-        assertEquals(1, digitNumber(0))
+        assertEquals(1, digitNumber(-5))
         assertEquals(1, digitNumber(7))
         assertEquals(2, digitNumber(10))
         assertEquals(2, digitNumber(99))
@@ -120,11 +120,11 @@ class Tests {
     fun maxDivisor() {
         assertEquals(1, maxDivisor(17))
         assertEquals(12, maxDivisor(24))
-        assertEquals(59, maxDivisor(177))
+        assertEquals(24, maxDivisor(26))
         assertEquals(17, maxDivisor(34))
         assertEquals(7, maxDivisor(49))
         assertEquals(509, maxDivisor(8653))
-        assertEquals(1 , maxDivisor(2124679 ))
+        assertEquals(1, maxDivisor(2124679 ))
         assertEquals(1, maxDivisor(1073676287))
         assertEquals(1, maxDivisor(Int.MAX_VALUE))
     }
@@ -132,7 +132,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun isCoPrime() {
-        assertTrue(isCoPrime(25, 49))
+        assertTrue(isCoPrime(83613, 83648))
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
@@ -144,7 +144,7 @@ class Tests {
     @Tag("Easy")
     fun squareBetweenExists() {
         assertTrue(squareBetweenExists(1, 1))
-        assertTrue(squareBetweenExists(21, 28))
+        assertTrue(squareBetweenExists(24, 26))
         assertTrue(squareBetweenExists(36, 48))
         assertTrue(squareBetweenExists(50, 64))
         assertFalse(squareBetweenExists(51, 61))

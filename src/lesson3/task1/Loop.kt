@@ -107,11 +107,10 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var x = n
     var y = m
-    if (m >= n) {
-        while (x % y != 0) x += n
-    } else while (y % x != 0) y += m
-    return if (m > n) x
-    else y
+    while (x != 0 && y != 0) {
+        if (x > y) x %= y else y %= x
+    }
+    return m / (x + y) * n
 }
 
 /**
@@ -132,13 +131,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var g = 0
-    for (i in (n - 1) downTo 1) {
-        if ((n % i == 0) && (i > g)) g = i
-    }
-    return g
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -169,10 +162,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k: Double
-    var c: Double
-    k = sqrt(n.toDouble())
-    c = floor(k)
+    val k = sqrt(n.toDouble())
+    val c = floor(k)
     return (c >= sqrt(m.toDouble()))
 }
 
@@ -275,11 +266,8 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var x = revert(n)
-    return when {
-        (x == n) -> true
-        else -> false
-    }
+    val x = revert(n)
+    return x == n
 }
 
 /**
