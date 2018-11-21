@@ -306,7 +306,7 @@ fun squareSequenceDigit(n: Int): Int {
         x += digitNumber(sqr(k))
     }
     for (i in 1..x - n) a *= 10
-    var c = k * k / a % 10
+    val c = k * k / a % 10
     return c
 }
 
@@ -328,6 +328,6 @@ fun fibSequenceDigit(n: Int): Int {
         x += digitNumber(fib(k))
     }
     for (i in 1..x - n) a *= 10
-    var c = fib(k) / a % 10
+    val c = fib(k) / a % 10
     return c
 }
