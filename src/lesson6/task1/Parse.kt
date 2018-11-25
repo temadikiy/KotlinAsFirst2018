@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -71,7 +73,18 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val month = mapOf("января" to 1, "февраля" to 2, "марта" to 3, "апреля" to 4, "мая" to 5, "июня" to 6,
+            "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10, "ноября" to 11, "декабря" to 12)
+    val data = str.split(" ")
+    return if (data.size != 3) "" else {
+        val day = data[0].toIntOrNull()
+        val year = data[2].toIntOrNull()
+        val month = month[data[1]]
+        if (day == null || year == null || month == null || day !in 1..daysInMonth(month, year)) "" else
+            String.format("%02d.%02d.%d", day, month, year)
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +96,21 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val monthmany = mapOf(1 to "января", 2 to "февраля", 3 to "марта", 4 to "апреля", 5 to "мая", 6 to "июня",
+            7 to "июля", 8 to "августа", 9 to "сентября", 10 to "октября", 11 to "ноября", 12 to "декабря")
+    val data = digital.split(".")
+    if (data.size != 3) return "" else {
+        val day = data[0].toIntOrNull()
+        val year = data[2].toIntOrNull()
+        val monthInt = data[1].toIntOrNull()
+        if (day == null || year == null || monthInt == null) return ""
+        if (monthInt !in 1..12) return ""
+        if (day !in 1..daysInMonth(monthInt, year)) return ""
+        val month = monthmany[monthInt]
+        return String.format("%d %s %d", day, month, year)
+    }
+}
 
 /**
  * Средняя
@@ -97,7 +124,37 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val new = StringBuilder()
+    val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    val symbols = setOf('+', '-', '(', ')', ' ')
+    val length = phone.length
+    var n = -1
+    var m = -1
+    var t = 0
+    var r = 0
+    for (i in 0 until length) {
+        when {
+            phone[i] !in symbols && phone[i] !in digits || phone[i] == '+' && new.isNotEmpty() -> return ""
+            phone[i] == '(' -> {
+                t++
+                if (t == 1) n = i
+            }
+            phone[i] == ')' -> {
+                r++
+                if (r == 1) m = i
+            }
+            phone[i] != ' ' && phone[i] != '-' &&
+                    phone[i] != '(' && phone[i] != ')' -> new.append(phone[i])
+        }
+    }
+    if (new.length == 1 && new[0] == '+' || t !in 0..1 || r !in 0..1) return ""
+    if (m == -1 || n == -1)
+        return if (m == -1 && n == -1) new.toString() else ""
+    else
+        for (i in (m + 1)..(n - 1)) if (phone[i] !in digits) return ""
+    return new.toString()
+}
 
 /**
  * Средняя
@@ -109,7 +166,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val str = jumps.split(" ")
+    val length = str.size
+    var new = -1
+    for (i in 0 until length) {
+        if (str[i] != "-" && str[i] != "%" && str[i].toIntOrNull() == null && str[i] != "")
+            return -1
+        else
+            if (str[i] != "-" && str[i] != "%" && str[i] != "")
+                if (new < str[i].toInt()) new = str[i].toInt()
+    }
+    return new
+}
 
 /**
  * Сложная

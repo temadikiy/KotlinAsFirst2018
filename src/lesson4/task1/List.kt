@@ -227,18 +227,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    val a = factorize(n)
-    var vs: String
-    if (a.size == 1)
-        vs = "$a[0]"
-    else {
-        vs = "$a[0]"
-        for (i in 1 until a.size)
-            vs += "*$a[0]"
-    }
-    return vs
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
