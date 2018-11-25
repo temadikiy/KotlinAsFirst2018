@@ -131,7 +131,7 @@ fun mean(list: List<Double>): Double {
         a += i
         b += 1
     }
-    return a/b
+    return (a / b)
 }
 
 /**
@@ -215,8 +215,7 @@ fun factorize(n: Int): List<Int> {
         if (a % k == 0) {
             a /= k
             list.add(k)
-        }
-        else k += 1
+        } else k++
     }
     return list
 }
@@ -228,7 +227,18 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val a = factorize(n)
+    var vs: String
+    if (a.size == 1)
+        vs = "$a[0]"
+    else {
+        vs = "$a[0]"
+        for (i in 1 until a.size)
+            vs += "*$a[0]"
+    }
+    return vs
+}
 
 /**
  * Средняя
@@ -239,7 +249,12 @@ fun factorizeToString(n: Int): String = TODO()
  */
 fun convert(n: Int, base: Int): List<Int> {
     val list = mutableListOf<Int>()
-
+    var a = n
+    do {
+        list.add(0, a % base)
+        a /= base
+    } while (a != 0)
+    return list
 }
 
 /**
@@ -259,7 +274,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var a = 0
+    var b = 1
+    val list = digits.reversed()
+    for (i in 0 until digits.size) {
+        a += list[i] * b
+        b *= base
+    }
+    return a
+}
 
 /**
  * Сложная

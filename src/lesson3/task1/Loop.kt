@@ -147,10 +147,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         if (x > y) x -= y
         else y -= x
     }
-    return when {
-        x == 1 -> true
-        else -> false
-    }
+    return x == 1
 }
 
 
@@ -306,8 +303,7 @@ fun squareSequenceDigit(n: Int): Int {
         x += digitNumber(sqr(k))
     }
     for (i in 1..x - n) a *= 10
-    val c = k * k / a % 10
-    return c
+    return (k * k / a % 10)
 }
 
 /**
@@ -328,6 +324,5 @@ fun fibSequenceDigit(n: Int): Int {
         x += digitNumber(fib(k))
     }
     for (i in 1..x - n) a *= 10
-    val c = fib(k) / a % 10
-    return c
+    return (fib(k) / a % 10)
 }
