@@ -131,7 +131,7 @@ fun mean(list: List<Double>): Double {
         a += i
         b += 1
     }
-    return (a / b)
+    return a / b
 }
 
 /**

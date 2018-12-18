@@ -81,8 +81,8 @@ fun dateStrToDigit(str: String): String {
         val day = data[0].toIntOrNull()
         val year = data[2].toIntOrNull()
         val month = month[data[1]]
-        if (day == null || year == null || month == null || day !in 1..daysInMonth(month, year)) "" else
-            String.format("%02d.%02d.%d", day, month, year)
+        if (day == null || year == null || month == null || day !in 1..daysInMonth(month, year)) ""
+        else String.format("%02d.%02d.%d", day, month, year)
     }
 }
 
@@ -129,30 +129,30 @@ fun flattenPhoneNumber(phone: String): String {
     val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     val symbols = setOf('+', '-', '(', ')', ' ')
     val length = phone.length
-    var n = -1
-    var m = -1
-    var t = 0
-    var r = 0
+    var nadya = -1
+    var masha = -1
+    var tema = 0
+    var roma = 0
     for (i in 0 until length) {
         when {
             phone[i] !in symbols && phone[i] !in digits || phone[i] == '+' && new.isNotEmpty() -> return ""
             phone[i] == '(' -> {
-                t++
-                if (t == 1) n = i
+                tema++
+                if (tema == 1) nadya = i
             }
             phone[i] == ')' -> {
-                r++
-                if (r == 1) m = i
+                roma++
+                if (roma == 1) masha = i
             }
             phone[i] != ' ' && phone[i] != '-' &&
                     phone[i] != '(' && phone[i] != ')' -> new.append(phone[i])
         }
     }
-    if (new.length == 1 && new[0] == '+' || t !in 0..1 || r !in 0..1) return ""
-    if (m == -1 || n == -1)
-        return if (m == -1 && n == -1) new.toString() else ""
+    if (new.length == 1 && new[0] == '+' || tema !in 0..1 || roma !in 0..1) return ""
+    if (masha == -1 || nadya == -1)
+        return if (masha == -1 && nadya == -1) new.toString() else ""
     else
-        for (i in (m + 1)..(n - 1)) if (phone[i] !in digits) return ""
+        for (i in (masha + 1)..(nadya - 1)) if (phone[i] !in digits) return ""
     return new.toString()
 }
 

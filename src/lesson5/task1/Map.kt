@@ -95,15 +95,15 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val Big = mutableMapOf<String, String>()
+    val sagan = mutableMapOf<String, String>()
     for ((name, phone) in mapA)
-        Big[name] = phone
+        sagan[name] = phone
     for ((name, phone) in mapB)
-        if ((name) in Big) {
-            if (Big[name] != phone)
-                Big[name] = Big[name] + ", $phone"
-        } else Big[name] = phone
-    return Big
+        if (name in sagan) {
+            if (sagan[name] != phone)
+                sagan[name] = sagan[name] + ", $phone"
+        } else sagan[name] = phone
+    return sagan
 }
 
 /**
@@ -120,7 +120,10 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val new = mutableMapOf<Int, List<String>>()
     grades.forEach {
         if (new[it.value] == null) new[it.value] = listOf(it.key)
-        else new[it.value] = new[it.value]!! + it.key
+        else {
+            val list = new[it.value]
+            new[it.value] = (if (list != null) list else throw NullPointerException("Expression 'new[it.value]' must not be null")) + it.key
+        }
     }
     for ((i, k) in new)
         new[i] = k.sortedDescending()
