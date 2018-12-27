@@ -192,10 +192,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var a = list[0]
-    for (i in 1 until list.size) {
-        a += list[i]
-        list[i] = a
+    list.foldIndexed(0.0) { i, a, _ ->
+        list[i] += a
+        list[i]
     }
     return list
 }
